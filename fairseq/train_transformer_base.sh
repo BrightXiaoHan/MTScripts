@@ -13,12 +13,9 @@ export PYTHONPATH=$FRAMEWORK_SOURCE_DIR:$PYTHONPATH
 if [ -f $DATASET_DIR/$SOURCE_LANG.spm.vocab ] && [ -f $DATASET_DIR/$TARGET_LANG.spm.vocab ]; then
   SOURCE_VOCAB=$DATASET_DIR/$SOURCE_LANG.spm.vocab
   TARGET_VOCAB=$DATASET_DIR/$TARGET_LANG.spm.vocab
-  sed -i "s/\t/ /g" $SOURCE_VOCAB
-  sed -i "s/\t/ /g" $TARGET_VOCAB
 elif [ -f $DATASET_DIR/all.spm.vocab ]; then
   SOURCE_VOCAB=$DATASET_DIR/all.spm.vocab
   TARGET_VOCAB=$DATASET_DIR/all.spm.vocab
-  sed -i "s/\t/ /g" $SOURCE_VOCAB
 else
   echo "Can't find vocab from $DATASET_DIR for training."
   exit 1
