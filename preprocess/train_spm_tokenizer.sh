@@ -26,6 +26,11 @@ train () {
 
   # 清除中间生成的文件
   rm $TMP_FILE 
+
+  if [[ $FRAMEWORK_NAME == "fairseq" ]]; then
+    sed -i "s/\t/ /g" $OUTPUT_FOLDER/$prefix.vocab
+    sed -i '1,3d' $OUTPUT_FOLDER/$prefix.vocab  # <unk>, <s>, </s>
+  fi
 }
 
 # 获取原文、译文的语言类型

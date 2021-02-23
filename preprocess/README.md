@@ -40,8 +40,8 @@ optional arguments:
 usage:
   [DATASET_DIR=dataset_dir] bash segment_chinese_chars.sh
 
-  environment variables:
-    DATASET_DIR: 数据集存放文件夹
+environment variables:
+  DATASET_DIR: 数据集存放文件夹
 
 Note:
   该脚本执行生成结果会替换原文件，执行该脚本前请做好备份。只对文件夹中`zh`开头的文件进行处理。
@@ -84,10 +84,12 @@ bash tokenize_all.sh
 
 environment variables:
   DATASET_DIR: 数据集存放文件夹
+  FRAMEWORK_NAME: 机器翻译训练框架名称，fairseq或者opennmt
 
 Notes:
   1. 该脚本会对`DATASET_DIR`中所有子目录的文件进行分词操作，使用存放在`DATASET_DIR`中的分词模型进行分词。分词后的语料将会替换原始语料，请做好数据备份。
   2. 如果`DATASET_DIR`中存在`all.spm.model`则对所有语言使用该分词模型进行分。词否则，则对每种语言使用不同的分词模型进行分词，比如所有`en`语料使用`en.spm.model`模型进行分词
+  3. 如果训练框架为fairseq，由于框架要求的词表格式与sentencepiece输出的格式不一样，所以会对`$lang.spm.vocab`进行处理。 
 ```
 
 5. 数据集分割脚本[split_train_dev_test.sh](./split_train_dev_test.sh)
@@ -108,7 +110,9 @@ usage:
 
 environment variables:
   DATASET_DIR: 数据集存放文件夹
+  FRAMEWORK_NAME: 框架名称，fairseq或者opennmt
 Notes:
   - 该脚本将以`DATASET_DIR`中的一个子数据集文件夹中的文件作为基准，合并其他子数据集文件夹中的同名文件。合并生成的文件将以相同的名字存放在`DATASET_DIR`中。
+  - 如果`FRAMEWORK_NAME`为fairseq，则输出`train.$lang, dev.$lang, test.$lang`，否则输出`$lang.train, $lang.dev, $lang.test`
 ```
 

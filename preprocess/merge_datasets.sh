@@ -13,11 +13,18 @@ done
 
 for name in $allFileNames
 do
+    # 这里将名字交换（如 $lang.train -> train.$lang ），为了满足fairseq的数据存储文件名格式
+    if [[ $FRAMEWORK_NAME == "fairseq" ]]; then
+      ext=${name##*.}
+      base=${name%%.*}
+      outputname=$ext.$base
+    else
+      outputname=$name
+    fi
     input_files=""
     for folder in $SUBSET_FOLDERS 
     do
         input_files+=" $folder/$name"
     done
-    cat $input_files > $DATASET_DIR/$name
+    cat $input_files > $DATASET_DIR/$outputname
 done
-
