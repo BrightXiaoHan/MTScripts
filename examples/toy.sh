@@ -20,7 +20,8 @@ done
 export DATASET_DIR=$WORKSPACE_DIR
 export CUDA_VISIBLE_DEVICES=0 
 export FRAMEWORK_NAME="fairseq"
-export FRAMEWORK_SOURCE_DIR=".$FRAMEWORK_NAME"
+export SOURCE_LANG="zh"
+export TARGET_LANG="en"
 
 
 # 使用基于非译元素的方法进行term保护
@@ -39,12 +40,6 @@ bash $SCRIPTS_SOURCE_ROOT/preprocess/split_train_dev_test.sh
 # 合并数据集
 bash $SCRIPTS_SOURCE_ROOT/preprocess/merge_datasets.sh
 
-# 使用fairseq训练并测试模型
-if [ ! -d $FRAMEWORK_SOURCE_DIR ]; then
-  cur=$(realpath $(dirname $0))
-  git clone https://github.com/pytorch/fairseq $FRAMEWORK_SOURCE_DIR -b v0.10.1
-  cd $WORKSPACE_DIR
-  python setup.py build_ext --inplace
-fi
-bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh zh en train
-bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh zh en test
+# 训练+测试模型
+bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh train
+bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh test

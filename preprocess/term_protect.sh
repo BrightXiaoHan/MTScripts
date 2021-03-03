@@ -12,9 +12,9 @@ maskFolder () {
     basefilename=$(basename $filename)
     if  [[ $basefilename =~ (.*)?\.(.*) ]];then 
       suffix=${basefilename#*.}
-      targetfile=$(find $(dirname $filename) -type f -name *.$suffix ! -name zh.$suffix)
+      targetfile=$(find $(dirname $filename) -type f -name "*.$suffix" ! -name "zh.$suffix")
     else
-      targetfile=$(find $(dirname $filename) -type f ! -name zh ! -name *.*)
+      targetfile=$(find $(dirname $filename) -type f ! -name "zh" ! -name "*.*")
     fi
     
     python $PYTHON_SCRIPT $filename $targetfile \

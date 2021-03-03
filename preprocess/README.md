@@ -75,7 +75,8 @@ positional arguments:
   algorithm: 指定分词模型算法。可用的分词算法有`bpe`，`unigram`
 
 Notes:
-  最终训练好的模型会存放在`DATASET_DIR`目录下，命名方式为`$lang.spm.vocab`，`$lang.spm.model`
+  - 最终训练好的模型会存放在`DATASET_DIR`目录下，命名方式为`$lang.spm.vocab`，`$lang.spm.model`
+  - 如果sentencepiece训练过程中报错，可能是训练数据集过大，可以在脚本中加入----input_sentence_size参数，参数的解释可以参考https://github.com/google/sentencepiece/blob/master/doc/options.md
 ```
 
 4. 分词脚本[tokenzie_all.sh](./tokenize_all.sh)
@@ -115,4 +116,3 @@ Notes:
   - 该脚本将以`DATASET_DIR`中的一个子数据集文件夹中的文件作为基准，合并其他子数据集文件夹中的同名文件。合并生成的文件将以相同的名字存放在`DATASET_DIR`中。
   - 如果`FRAMEWORK_NAME`为fairseq，则输出`train.$lang, dev.$lang, test.$lang`，否则输出`$lang.train, $lang.dev, $lang.test`
 ```
-

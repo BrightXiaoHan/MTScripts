@@ -9,7 +9,6 @@ usage:
 
 environment variables:
   DATASET_DIR: 数据集存放文件夹, 工作目录
-  FRAMEWORK_SOURCE_DIR: fairseq源码目录
   CUDA_VISIABLE_DEVICE: 可见的cuda设备
 
 positional:

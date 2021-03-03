@@ -1,9 +1,8 @@
 # parse command line options
-SOURCE_LANG=$1
-TARGET_LANG=$2
-MODE=$3  # train or test
+MODE=$1  # train or test
 MODEL_PATH=$DATASET_DIR
 DATA_BIN_PATH=$DATASET_DIR/.data_bin
+FRAMEWORK_SOURCE_DIR=$(source $(dirname $0)/../utils/prepare_3rd_lib.sh fairseq)
 
 set -e
 
