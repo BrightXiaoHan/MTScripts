@@ -5,9 +5,9 @@
 echo "Executing script $0..."
 for model in $(find $DATASET_DIR -maxdepth 1 -type f -name "*.spm.model")
 do
-  echo $model
-  lang=${model%%.*}
-  if [[ $lang = "all" ]];then
+  model_name=$(basename $model)
+  lang=${model_name%%.*}
+  if [[ $lang == "all" ]];then
     lang=""
   fi
   for file in $(find $DATASET_DIR -maxdepth 2 -mindepth 2 -type f -name "$lang*")
