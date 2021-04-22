@@ -6,6 +6,7 @@ USER_DEFINE_SYMBOLS_FILE=$(dirname $0)/assets/term_protect_symbols.txt
 VOCAB_SIZE=$1  # spm训练生成的词表大小
 TRAIN_SEPERATE_TOKENIZER=$2  # 是否为原文译文训练单独的词表,True时分别训练词表,False时训练一个词表
 ALGORITHM=$3  # 指定分词模型算法。可用的分词算法有`bpe`，`unigram`
+SENTENCEPIECE_BIN=$(source $(dirname $0)/../utils/prepare_3rd_lib.sh sentencepiece)
 
 
 train () {
@@ -16,7 +17,7 @@ train () {
   cat ${@: 2:$#} > $TMP_FILE
 
   echo "Training sentencepiece model with prefix $prefix..."
-  spm_train --input=$TMP_FILE \
+  $SENTENCEPIECE_BIN/spm_train --input=$TMP_FILE \
     --model_prefix=$OUTPUT_FOLDER/$prefix \
     --vocab_size=$VOCAB_SIZE \
     --model_type=$ALGORITHM \

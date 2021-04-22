@@ -23,7 +23,7 @@ export FRAMEWORK_NAME="fairseq"
 export SOURCE_LANG="zh"
 export TARGET_LANG="en"
 
-
+bash $SCRIPTS_SOURCE_ROOT/preprocess/moses.sh normal_tok clean truecase
 # 使用基于非译元素的方法进行term保护
 bash $SCRIPTS_SOURCE_ROOT/preprocess/term_protect.sh
 

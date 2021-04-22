@@ -1,6 +1,22 @@
 # MTModelTrainer
 机器翻译模型训练脚本，基于开源机器翻译框架Opennmt以及fairseq。
 
+## 环境配置
+### 系统要求
+- centos 7, 8
+- nvidia gpu and cuda installed
+
+### 软件要求
+- gcc, make, cmake
+- pytorch > 1.5
+- anaconda
+- python > 3.6
+
+### 安装其他依赖包
+```
+pip install -i https://pypi.douban.com/simple -r requirements.txt
+```
+
 ## 快速开始
 ```
 bash examples/toy.sh

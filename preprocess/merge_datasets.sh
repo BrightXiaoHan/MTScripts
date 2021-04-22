@@ -2,7 +2,7 @@
 # 请务必保证每个自数据集中的文件名称一一对应
 set -e
 
-SUBSET_FOLDERS=$(find $DATASET_DIR -maxdepth 1 -mindepth 1 -type d)
+SUBSET_FOLDERS=$(find $DATASET_DIR -maxdepth 1 -mindepth 1 -type d ! -name ".*")
 REFERENCE=$(echo $SUBSET_FOLDERS | cut -d' ' -f1)
 
 for file in $(find $REFERENCE -maxdepth 1 -type f)
@@ -17,7 +17,12 @@ do
     if [[ $FRAMEWORK_NAME == "fairseq" ]]; then
       ext=${name##*.}
       base=${name%%.*}
-      outputname=$ext.$base
+      if [[ $ext == $base ]]; then
+        # 如果数据集本身没有被分成tran, dev, test
+        outputname="train.$base"
+      else
+        outputname=$ext.$base
+      fi
     else
       outputname=$name
     fi

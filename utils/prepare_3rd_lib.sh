@@ -49,4 +49,17 @@ prepare_moses () {
   echo $MOSES_HOME/scripts
 }
 
+prepare_sentencepiece () {
+  SENTENCEPIECE_HOME=".sentencepiece"
+  if [ ! -d $SENTENCEPIECE_HOME ]; then
+    git clone https://gitee.com/brightxiaohan/sentencepiece.git $SENTENCEPIECE_HOME
+    pushd $SENTENCEPIECE_HOME
+    mkdir build
+    cmake -H. -Bbuild -G "Unix Makefiles"
+    cmake --build build
+    popd
+  fi
+  echo $SENTENCEPIECE_HOME/build/src
+}
+
 prepare_$LIBRARY_NAME

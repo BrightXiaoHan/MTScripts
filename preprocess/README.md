@@ -47,6 +47,20 @@ Note:
   该脚本执行生成结果会替换原文件，执行该脚本前请做好备份。只对文件夹中`zh`开头的文件进行处理。
 ```
 
+3. 基于Moses的语料预处理[moses.sh](./moses.sh)
+```
+usage:
+  bash moses.sh piplines
+
+list arguments:
+  处理的流水线，有nromal_tok, clean、truecase三个可选。
+
+Note:
+  - 虽然三个处理流程无论传递参数的顺序如何，都会严格按照normal_tok, clean, truecase的顺序执行
+  - 必须选择normal_tok选项
+  - clean的规则是过滤掉以原文为基准1-120词之外语料，将长度之外的句子和空句删除，将明显不对齐的句子删除
+```
+
 2. 基于非译元素的term保护脚本[term_protect.sh](./term_protect.sh)
 ```
 usage:
