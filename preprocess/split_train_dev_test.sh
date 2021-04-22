@@ -1,5 +1,5 @@
 # 将数据集分为训练、开发、测试集
-# 分割比例原则上按照 0.8，0.1, 0.1的比例分割，如果数据集数量大于20w，则开发集和测试集各预留2w条，不再按照比例进行分割
+# 分割比例原则上按照 0.8，0.1, 0.1的比例分割，如果数据集数量大于2w，则开发集和测试集各预留2k条，不再按照比例进行分割
 
 
 removeEmptyLines() {
@@ -13,8 +13,8 @@ splitFile() {
     filename=$1
     removeEmptyLines ${filename}
     numLines=$(wc -l ${filename} | cut -d" " -f1)
-    if [ $numLines -gt 200000 ]; then
-        split -l $(($numLines - 40000)) ${filename} ${filename}
+    if [ $numLines -gt 20000 ]; then
+        split -l $(($numLines - 4000)) ${filename} ${filename}
     else
         split -l $(($numLines * 80 / 100)) ${filename} ${filename}
     fi
