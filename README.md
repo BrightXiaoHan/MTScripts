@@ -8,9 +8,10 @@
 
 ### 软件要求
 - gcc, make, cmake
-- pytorch > 1.5
+- pytorch>1.5
 - anaconda
-- python > 3.6
+- python>3.6
+- fairseq==v0.10.2 (参考官方安装指南，如需要可安装apex、pyarrow等依赖包)
 
 ### 安装其他依赖包
 ```

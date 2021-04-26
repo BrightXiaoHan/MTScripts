@@ -1,1 +1,6 @@
 sacremoses
+sacrebleu
+wget
+xtract
+translate-toolkit
+more-itertools

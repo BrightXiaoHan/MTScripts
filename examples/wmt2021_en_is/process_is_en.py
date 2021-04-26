@@ -99,17 +99,38 @@ def get_dev_corpus():
     mtcorpus.write_corpus("is-en/parallel/dev", corpus, "en", "is")
     print("Process dev data done.")
 
+@mtcorpus.download_warpper(wmt2021_is_monolingual["News crawl"], "is-en/raw/news.2020.is.shuffled.gz", "is-en/raw/news.2020.is.shuffled")
+def get_monolingual_newscrawl():
+    print("Processing monolingual News crawl of is...")
+    corpus = mtcorpus.monolingual_seperate_file_parser(["is-en/raw/news.2020.is.shuffled"])
+    mtcorpus.write_corpus("is-en/monolingual/newscrawl", corpus, "is")
+    print("Process monolingual newscrawl is data done.")
+
+
+@mtcorpus.download_warpper(wmt2021_is_monolingual["Common Crawl"], "is-en/raw/is.deduped.xz", "is-en/raw/is.deduped")
+def get_monolingual_commoncrawl():
+    print("Processing monolingual Common Crawl of is")
+    corpus = mtcorpus.monolingual_seperate_file_parser(["is-en/raw/is.deduped"])
+    mtcorpus.write_corpus("is-en/monolingual/commoncrawl", corpus, "is")
+    print("Processing monolingual Common Crawl is data done.")
+
+
+@mtcorpus.download_warpper(wmt2021_is_monolingual["Icelandic Gigaword Part1"], "is-en/raw/", "is-en/raw/CC_BY")
+def get_monolingual_icelandic_gigaword():
+    pass
+
 
 def main():
-    get_parice_corpus()
-    get_paracral_corpus()
-    # skip wikititles and wikimatrix for quality reason
+    #  get_parice_corpus()
+    #  get_paracral_corpus()
+    # # skip wikititles and wikimatrix for quality reason
     # get_wikititles_corpus()
     # get_wikimatrix_corpus()
-    get_paricename_corpus()
-    get_paricesynthetic_corpus()
-    get_dev_corpus()
-
+    #  get_paricename_corpus()
+    #  get_paricesynthetic_corpus()
+    #  get_dev_corpus()
+    get_monolingual_newscrawl()
+    get_monolingual_commoncrawl()
 
 if __name__ == "__main__":
     main()

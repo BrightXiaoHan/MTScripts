@@ -7,15 +7,17 @@ from translate.storage.tmx import tmxfile
 from tqdm import tqdm
 
 
-def download_warpper(url, destination, derivation):
+def download_warpper(url, destination, derivation=None):
     """
     Wrap functions with this wrapper will automantic download corpus and extract files from achieves.
 
     Args:
         url (str): url of corpus to be downloaded.
         destination (str): path to save downloaded file. if "url" is a, this argument is a folder path, else is a file path.
-        derivation (str): specify where corpus files should be extracted.
+        derivation (str, Optional): Default is None. specify where corpus files should be extracted. If corpus don't need to be extract, set derivation None.
     """
+    if derivation is None:
+        derivation = destination
     def wrapper(func):
         def inner_func(*args, **kwargs):
             if not os.path.exists(destination) and not os.path.exists(derivation):
@@ -41,7 +43,7 @@ def download_warpper(url, destination, derivation):
     return wrapper
 
 
-def write_corpus(destination, corpus, src_lang, tgt_lang):
+def write_corpus(destination, corpus, src_lang, tgt_lang=None):
     """
     Save parallel corpus to sepecific destination.
 
@@ -49,19 +51,26 @@ def write_corpus(destination, corpus, src_lang, tgt_lang):
         destination (Path): Path to save corpus.
         corpus (iterator): Each element is a pair of parallel sentences.
         src_langs (str): Source language type.
-        tgt_langs (str): Target language type.
+        tgt_langs (str, optional): Default is None. Target language type.
+
+    Note:
+        If you want to write monolingual corpus, you can set tgt_lang=None
+        and each element of corpus contain only one sentence instead of two.
     """
     if not os.path.exists(destination):
         os.makedirs(destination)
     src_output_file = open(os.path.join(destination, src_lang), "w")
-    tgt_output_file = open(os.path.join(destination, tgt_lang), "w")
+    if tgt_lang:
+        tgt_output_file = open(os.path.join(destination, tgt_lang), "w")
 
-    for src_line, tgt_line in tqdm(corpus):
-        print(src_line, file=src_output_file)
-        print(tgt_line, file=tgt_output_file)
+    for item in tqdm(corpus):
+        print(item[0], file=src_output_file)
+        if tgt_lang:
+            print(item[1], file=tgt_output_file)
 
     src_output_file.close()
-    tgt_output_file.close()
+    if tgt_lang:
+        tgt_output_file.close()
 
 
 def tsv_file_parser(files, src_index=0, tgt_index=1):
@@ -122,3 +131,16 @@ def seperate_file_parser(src_files, tgt_files):
         with open(src_file) as f1, open(tgt_file) as f2:
             for src_line, tgt_line in zip(f1, f2):
                 yield [src_line.strip(), tgt_line.strip()]
+
+def monolingual_seperate_file_parser(files):
+    """
+    Extract monolingual corpus from seperated files
+
+    Args:
+        files: files contain monolingual sentences
+    """
+    for filename in files:
+        with open(filename, "r") as f:
+            for line in f:
+                yield [line.strip()]
+

@@ -18,7 +18,7 @@ for name in $SUBSET_NAME; do
 done
 
 export DATASET_DIR=$WORKSPACE_DIR
-export CUDA_VISIBLE_DEVICES=0,1,2,3
+export CUDA_VISIBLE_DEVICES=0,1
 export FRAMEWORK_NAME="fairseq"
 export SOURCE_LANG="en"
 export TARGET_LANG="is"
@@ -30,4 +30,5 @@ bash $SCRIPTS_SOURCE_ROOT/utils/unmask_dataset_folder.sh dev parices-synthetic
 bash $SCRIPTS_SOURCE_ROOT/preprocess/tokenize_all.sh
 bash $SCRIPTS_SOURCE_ROOT/preprocess/group_train_dev_test.sh "TRAIN=ParaCrawl ParIce1.1 paricename parices-synthetic" "DEV=dev" "TEST=dev"
 bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh train
-# bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh test
+bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh test
+bash $SCRIPTS_SOURCE_ROOT/postprocess/detokenize.sh

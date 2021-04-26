@@ -28,8 +28,8 @@ then
   echo "Start prapare data bins..."
   python $RUN_PATH/preprocess.py --source-lang $SOURCE_LANG --target-lang $TARGET_LANG \
       --trainpref $DATASET_DIR/train --validpref $DATASET_DIR/dev \
-      --tgtdict $SOURCE_VOCAB \
-      --srcdict $TARGET_VOCAB \
+      --srcdict $SOURCE_VOCAB \
+      --tgtdict $TARGET_VOCAB \
       --destdir $DATA_BIN_PATH \
       --workers 20
 
@@ -42,8 +42,8 @@ then
       --lr 5e-4 --lr-scheduler inverse_sqrt --warmup-updates 4000 --warmup-init-lr 1e-07 \
       --dropout 0.3 --weight-decay 0.0001 \
       --criterion label_smoothed_cross_entropy --label-smoothing 0.1 \
-      --max-update 300000 --max-epoch 200 \
-      --patience 20 \
+      --max-update 300000 --max-epoch 50 \
+      --patience 5 \
       --attention-dropout 0.1 \
       --max-tokens 8192 \
       --update-freq 2 \
@@ -62,6 +62,15 @@ then
 
 elif [ "$MODE" == "test" ]
 then
+  # cp $SOURCE_VOCAB $DATASET_DIR/dict.$SOURCE_LANG.txt
+  # cp $TARGET_VOCAB $DATASET_DIR/dict.$TARGET_LANG.txt
+  #
+  # PYTHONIOENCODING=utf-8 python -u $(dirname $0)/inference.py \
+  #     $DATASET_DIR/test.$TARGET_LANG \
+  #     $DATASET_DIR/test.$TARGET_LANG.pred \
+  #     --folder $DATASET_DIR \
+      # --batch_size 512 --beam_size 3 --replace_unk
+
   echo "Start prapare data bins for test data..."
   python $RUN_PATH/preprocess.py --source-lang $SOURCE_LANG --target-lang $TARGET_LANG \
       --testpref $DATASET_DIR/test\
@@ -72,6 +81,6 @@ then
 
   echo "Start eval test set. You can check $MODEL_PATH/test.log for details."
   PYTHONIOENCODING=utf-8 python -u $RUN_PATH/generate.py $DATA_BIN_PATH \
-      --path $MODEL_PATH/checkpoint_best.pt \
-      --batch-size 512 --beam 5 --remove-bpe sentencepiece --fp16 --lenpen 1.0 2>&1
+      --path $MODEL_PATH/checkpoint_best.pt --scoring sacrebleu \
+      --batch-size 128 --beam 10 --remove-bpe sentencepiece --fp16 --lenpen 1.0 > $DATASET_DIR/test.log
 fi
