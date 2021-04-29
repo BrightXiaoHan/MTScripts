@@ -1,11 +1,11 @@
 """
 Inference script for fairseq model
 """
-import os
 import argparse
 from tqdm import tqdm
 from more_itertools import chunked
 from fairseq.models.transformer import TransformerModel
+
 
 def parse_args():
     """
@@ -21,13 +21,16 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-def translate(input_file, output_file, folder, beam_size=3, batch_size=128, replace_unk=False):
+
+def translate(input_file,
+              output_file,
+              folder,
+              beam_size=3,
+              batch_size=128,
+              replace_unk=False):
     print(folder)
     translator = TransformerModel.from_pretrained(
-        folder,
-        checkpoint_file='checkpoint_best.pt',
-        beam=beam_size
-    )
+        folder, checkpoint_file='checkpoint_best.pt', beam=beam_size)
     translator.cuda()
     translator.eval()
 
@@ -37,12 +40,15 @@ def translate(input_file, output_file, folder, beam_size=3, batch_size=128, repl
     for batch in tqdm(chunked(input_f, batch_size)):
         for sentence in translator.translate(batch):
             if replace_unk:
-               sentence = sentence.replace("<unk>", " ").replace("  ", " ")
+                sentence = sentence.replace("<unk>", " ").replace("  ", " ")
             print(sentence, file=output_f)
+
 
 def main():
     args = parse_args()
-    translate(args.input_file, args.output_file, args.folder, args.beam_size, args.batch_size, args.replace_unk)
+    translate(args.input_file, args.output_file, args.folder, args.beam_size,
+              args.batch_size, args.replace_unk)
+
 
 if __name__ == "__main__":
     main()

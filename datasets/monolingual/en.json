@@ -1,0 +1,32 @@
+{
+    "News crawl": [
+        "http://data.statmt.org/news-crawl/en/news.2007.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2008.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2009.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2010.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2011.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2012.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2013.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2014.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2015.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2016.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2017.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2018.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2019.en.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/en/news.2020.en.shuffled.deduped.gz"
+    ],
+    "News discussions": [
+        "http://data.statmt.org/news-discussions/en/news-discuss.2011.en.filtered.gz",
+        "http://data.statmt.org/news-discussions/en/news-discuss.2012.en.filtered.gz",
+        "http://data.statmt.org/news-discussions/en/news-discuss.2013.en.filtered.gz",
+        "http://data.statmt.org/news-discussions/en/news-discuss.2014.en.filtered.gz",
+        "http://data.statmt.org/news-discussions/en/news-discuss.2015.en.filtered.gz",
+        "http://data.statmt.org/news-discussions/en/news-discuss.2016.en.filtered.gz",
+        "http://data.statmt.org/news-discussions/en/news-discuss.2017.en.filtered.gz",
+        "http://data.statmt.org/news-discussions/en/news-discuss.2018.en.filtered.gz",
+        "http://data.statmt.org/news-discussions/en/news-discuss.2019.en.filtered.gz"
+    ],
+    "Europarl v10": "http://www.statmt.org/europarl/v10/training-monolingual/europarl-v10.en.tsv.gz",
+    "News Commentary": "http://data.statmt.org/news-commentary/v16/training-monolingual/news-commentary-v16.en.gz",
+    "Common Crawl": "http://web-language-models.s3-website-us-east-1.amazonaws.com/wmt16/deduped/en-new.xz"
+}

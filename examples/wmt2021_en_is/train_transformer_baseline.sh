@@ -31,4 +31,5 @@ bash $SCRIPTS_SOURCE_ROOT/preprocess/tokenize_all.sh
 bash $SCRIPTS_SOURCE_ROOT/preprocess/group_train_dev_test.sh "TRAIN=ParaCrawl ParIce1.1 paricename parices-synthetic" "DEV=dev" "TEST=dev"
 bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh train
 bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh test
+bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh inference
 bash $SCRIPTS_SOURCE_ROOT/postprocess/detokenize.sh

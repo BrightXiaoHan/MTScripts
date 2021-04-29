@@ -1,0 +1,6 @@
+{
+    "News crawl": "http://data.statmt.org/news-crawl/is/news.2020.is.shuffled.deduped.gz",
+    "Common Crawl": "http://web-language-models.s3-website-us-east-1.amazonaws.com/ngrams/is/deduped/is.deduped.xz",
+    "Icelandic Gigaword Part1": "https://repository.clarin.is/repository/xmlui/bitstream/handle/20.500.12537/41/IGC1.20.05.zip",
+    "Icelandic Gigaword Part2": "https://repository.clarin.is/repository/xmlui/bitstream/handle/20.500.12537/33/IGC2.20.05.zip"
+}

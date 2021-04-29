@@ -1,0 +1,30 @@
+{
+    "News crawl": [
+        "http://data.statmt.org/news-crawl/zh/news.2008.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2010.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2011.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2012.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2013.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2014.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2015.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2016.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2017.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2018.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2019.zh.shuffled.deduped.gz",
+        "http://data.statmt.org/news-crawl/zh/news.2020.zh.shuffled.deduped.gz"
+    ],
+    "News Commentary": "http://data.statmt.org/news-commentary/v16/training-monolingual/news-commentary-v16.zh.gz",
+    "Common Crawl": "http://web-language-models.s3-website-us-east-1.amazonaws.com/ngrams/zh/deduped/zh.deduped.xz",
+    "Extended Common Crawl": [
+        "http://data.statmt.org/wmt21/translation-task/cc-mono/zhs.0.txt.xz",
+        "http://data.statmt.org/wmt21/translation-task/cc-mono/zhs.1.txt.xz",
+        "http://data.statmt.org/wmt21/translation-task/cc-mono/zhs.2.txt.xz",
+        "http://data.statmt.org/wmt21/translation-task/cc-mono/zhs.3.txt.xz",
+        "http://data.statmt.org/wmt21/translation-task/cc-mono/zhs.4.txt.xz",
+        "http://data.statmt.org/wmt21/translation-task/cc-mono/zhs.5.txt.xz",
+        "http://data.statmt.org/wmt21/translation-task/cc-mono/zhs.6.txt.xz",
+        "http://data.statmt.org/wmt21/translation-task/cc-mono/zht.7.txt.xz",
+        "http://data.statmt.org/wmt21/translation-task/cc-mono/zht.8.txt.xz",
+        "http://data.statmt.org/wmt21/translation-task/cc-mono/zhs.9.txt.xz"
+    ]
+}

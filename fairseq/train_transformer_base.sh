@@ -62,15 +62,6 @@ then
 
 elif [ "$MODE" == "test" ]
 then
-  # cp $SOURCE_VOCAB $DATASET_DIR/dict.$SOURCE_LANG.txt
-  # cp $TARGET_VOCAB $DATASET_DIR/dict.$TARGET_LANG.txt
-  #
-  # PYTHONIOENCODING=utf-8 python -u $(dirname $0)/inference.py \
-  #     $DATASET_DIR/test.$TARGET_LANG \
-  #     $DATASET_DIR/test.$TARGET_LANG.pred \
-  #     --folder $DATASET_DIR \
-      # --batch_size 512 --beam_size 3 --replace_unk
-
   echo "Start prapare data bins for test data..."
   python $RUN_PATH/preprocess.py --source-lang $SOURCE_LANG --target-lang $TARGET_LANG \
       --testpref $DATASET_DIR/test\
@@ -83,4 +74,15 @@ then
   PYTHONIOENCODING=utf-8 python -u $RUN_PATH/generate.py $DATA_BIN_PATH \
       --path $MODEL_PATH/checkpoint_best.pt --scoring sacrebleu \
       --batch-size 128 --beam 10 --remove-bpe sentencepiece --fp16 --lenpen 1.0 > $DATASET_DIR/test.log
+
+elif [ "$MODE" == "inference" ];
+then
+  cp $SOURCE_VOCAB $DATASET_DIR/dict.$SOURCE_LANG.txt
+  cp $TARGET_VOCAB $DATASET_DIR/dict.$TARGET_LANG.txt
+
+  PYTHONIOENCODING=utf-8 python -u $(dirname $0)/inference.py \
+      $DATASET_DIR/test.$TARGET_LANG \
+      $DATASET_DIR/test.$TARGET_LANG.pred \
+      --folder $DATASET_DIR \
+      --batch_size 512 --beam_size 3 --replace_unk
 fi

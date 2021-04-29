@@ -1,0 +1,9 @@
+{
+    "ParIce": "http://parice.arnastofnun.is/data/parice_filtered.zip",
+    "ParaCrawl v7.1": "https://s3.amazonaws.com/web-language-models/paracrawl/release7.1/en-is.txt.gz",
+    "Wiki Titles v3": "http://data.statmt.org/wikititles/v3/wikititles-v3.is-en.tsv",
+    "WikiMatrix": "http://data.statmt.org/wmt21/translation-task/WikiMatrix/WikiMatrix.v1.en-is.langid.tsv.gz",
+    "UD Icelandic PUD": "https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-3424/ud-treebanks-v2.7.tgz",
+    "En-Is Semi-Synthetic Parallel Name Robustness Corpus": "https://repository.clarin.is/repository/xmlui/bitstream/handle/20.500.12537/74/parice-name-corpus.post-substitution.v2.tsv",
+    "EN-IS Synthetic Parallel Corpus": "https://repository.clarin.is/repository/xmlui/bitstream/handle/20.500.12537/70/eng-isl-synthetic-corpus-v1.0.tar.gz"
+}
