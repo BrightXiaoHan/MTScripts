@@ -147,7 +147,10 @@ def _maybe_extract(compressed_filename, directory, extension=None):
     elif 'tar' in extension:
         subprocess.call(['tar', '-C', directory, '-xvf', compressed_filename])
     else:
-        xtract(compressed_filename, directory)
+        try:
+            xtract(compressed_filename, directory)
+        except FileExistsError:
+            pass
 
     logger.info('Extracted {}'.format(compressed_filename))
 
@@ -184,7 +187,11 @@ def download_file_maybe_extract(url, directory, filename=None, extension=None, c
 
     directory = str(directory)
     filepath = os.path.join(directory, filename)
-    check_files = [os.path.join(directory, str(f)) for f in check_files]
+    if check_files:
+        check_files = [os.path.join(directory, str(f)) for f in check_files]
+    else:
+        check_files = [_get_filename_from_url(url)]
+
 
     if len(check_files) > 0 and _check_download(*check_files):
         return filepath

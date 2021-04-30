@@ -1,9 +1,9 @@
 import os
 import json
-import torchnlp.download as download
 from translate.storage.tmx import tmxfile
 from tqdm import tqdm
 from joblib import parallel_backend, delayed, Parallel
+from pylib._third_party import download
 
 
 def download_corpus(parallel_pairs, monolingual):
