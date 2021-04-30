@@ -2,4 +2,4 @@ sacremoses
 sacrebleu
 translate-toolkit
 more-itertools
-pytorch-nlp
+tqdm

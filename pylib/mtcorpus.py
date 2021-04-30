@@ -42,7 +42,7 @@ def download_corpus(parallel_pairs, monolingual):
             for url in value:
                 jobs.append((url, os.path.join(".{}".format(lang), key)))
 
-    with parallel_backend('threading', n_jobs=min(10, len(jobs))):
+    with parallel_backend('threading', n_jobs=len(jobs)):
         Parallel()(delayed(download.download_file_maybe_extract)(*job)
                    for job in jobs)
 
