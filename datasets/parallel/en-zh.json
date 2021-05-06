@@ -1,0 +1,22 @@
+{
+    "ParaCrawl v7.1": "http://data.statmt.org/wmt21/translation-task/zh-en/paracrawl.wmt21.en-zh.gz",
+    "News Commentary v16": "http://data.statmt.org/news-commentary/v16/training/news-commentary-v16.en-zh.tsv.gz",
+    "Wiki Titles v3": "http://data.statmt.org/wikititles/v3/wikititles-v3.zh-en.tsv",
+    "CCMT Corpus": [
+        "http://www.hackcha.cn/cwmt_data/casia2015.zip",
+        "http://www.hackcha.cn/cwmt_data/casict2011.zip",
+        "http://www.hackcha.cn/cwmt_data/casict2015.zip",
+        "http://www.hackcha.cn/cwmt_data/datum2015.zip",
+        "http://www.hackcha.cn/cwmt_data/datum2017.zip",
+        "http://www.hackcha.cn/cwmt_data/neu2017.zip"
+    ],
+    "WikiMatrix": "http://data.statmt.org/wmt21/translation-task/WikiMatrix/WikiMatrix.v1.en-zh.langid.tsv.gz",
+    "Back-translated news": [
+            "http://data.statmt.org/wmt20/translation-task/back-translation/zh-en/news.en.gz",
+            "http://data.statmt.org/wmt20/translation-task/back-translation/zh-en/news.translatedto.zh.gz"
+    ],
+    "UN Parallel Corpus V1.0": [
+      "https://drive.google.com/uc?export=download&id=1rv2Yh5j-5da5RZO3DEaYvYRZKxE841hT",
+      "https://drive.google.com/uc?export=download&id=1cfUezEOv5UPzF-d1uIm9-dkIUjtyZ9ys"
+    ]
+}

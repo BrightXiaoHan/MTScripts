@@ -190,7 +190,7 @@ def download_file_maybe_extract(url, directory, filename=None, extension=None, c
     if check_files:
         check_files = [os.path.join(directory, str(f)) for f in check_files]
     else:
-        check_files = [_get_filename_from_url(url)]
+        check_files = [filepath]
 
 
     if len(check_files) > 0 and _check_download(*check_files):
@@ -224,25 +224,3 @@ def _check_download(*filepaths):
         (bool): Returns True if all filepaths exist
     """
     return all([os.path.isfile(filepath) for filepath in filepaths])
-
-
-def download_files_maybe_extract(urls, directory, check_files=[]):
-    """ Download the files at ``urls`` to ``directory``. Extract to ``directory`` if tar or zip.
-    Args:
-        urls (str): Url of files.
-        directory (str): Directory to download to.
-        check_files (list of str): Check if these files exist, ensuring the download succeeded.
-            If these files exist before the download, the download is skipped.
-    Raises:
-        ValueError: Error if one of the ``check_files`` are not found following the download.
-    """
-    check_files = [os.path.join(directory, f) for f in check_files]
-    if _check_download(*check_files):
-        return
-
-    for url in urls:
-        download_file_maybe_extract(url=url, directory=directory)
-
-    if not _check_download(*check_files):
-        raise ValueError('[DOWNLOAD FAILED] `*check_files` not found')
-
