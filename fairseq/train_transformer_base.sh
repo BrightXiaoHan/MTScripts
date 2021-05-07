@@ -81,7 +81,7 @@ then
   cp $TARGET_VOCAB $DATASET_DIR/dict.$TARGET_LANG.txt
 
   PYTHONIOENCODING=utf-8 python -u $(dirname $0)/inference.py \
-      $DATASET_DIR/test.$TARGET_LANG \
+      $DATASET_DIR/test.$SOURCE_LANG \
       $DATASET_DIR/test.$TARGET_LANG.pred \
       --folder $DATASET_DIR \
       --batch_size 512 --beam_size 3 --replace_unk
