@@ -14,7 +14,6 @@ moses_detok () {
 moses_deturecase () {
   for file in $(find $DATASET_DIR -maxdepth 1 -type f -name "*.pred"); do
     $MOSES_SCRIPTS/recaser/detruecase.perl < $file > $file.tmp
-    sacremoses -l en -j 4 detokenize < $file > $file.tmp
     rm $file
     mv $file.tmp $file
   done

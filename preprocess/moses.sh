@@ -16,14 +16,20 @@ pipline_clean () {
 }
 
 pipline_normal_tok () {
-  for lang in "$SOURCE_LANG $TARGET_LANG"; do
+  for lang in $SOURCE_LANG $TARGET_LANG; do
     all_files=$(get_all_files_by_lang $lang)
     for file in $all_files; do
       # normalize and tokenize
       echo "Normalize and tokenize file $file."
-      sacremoses -j 4 normalize < $file > $file.tmp
-      sacremoses -l en -j 4 tokenize  < $file.tmp > $file
-      rm $file.tmp
+      if [ "$lang" == "zh" ]; then
+        python $(dirname $0)/python/segment_chinese_chars.py $file $file.tmp
+        rm $file
+        mv $file.tmp $file
+      else
+        sacremoses -j 4 normalize < $file > $file.tmp
+        sacremoses -l en -j 4 tokenize  < $file.tmp > $file
+        rm $file.tmp
+      fi
     done
   done
 }

@@ -26,11 +26,12 @@ def translate(input_file,
               output_file,
               folder,
               beam_size=3,
-              batch_size=128,
+              batch_size=256,
               replace_unk=False):
-    print(folder)
     translator = TransformerModel.from_pretrained(
-        folder, checkpoint_file='checkpoint_best.pt', beam=beam_size)
+        folder,
+        checkpoint_file='checkpoint_best.pt',
+        beam=beam_size)
     translator.cuda()
     translator.eval()
 

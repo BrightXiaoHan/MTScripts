@@ -20,8 +20,6 @@ else
   exit 1
 fi
 
-echo $SOURCE_VOCAB
-echo $TARGET_VOCAB
 if [ "$MODE" == "train" ]
 then
   # Preprocess/binarize the data
@@ -73,7 +71,8 @@ then
   echo "Start eval test set. You can check $MODEL_PATH/test.log for details."
   PYTHONIOENCODING=utf-8 python -u $RUN_PATH/generate.py $DATA_BIN_PATH \
       --path $MODEL_PATH/checkpoint_best.pt --scoring sacrebleu \
-      --batch-size 128 --beam 10 --remove-bpe sentencepiece --fp16 --lenpen 1.0 > $DATASET_DIR/test.log
+      --batch-size 512 --beam 5 --remove-bpe sentencepiece --fp16 --lenpen 1.0 \
+      --results-path $DATASET_DIR
 
 elif [ "$MODE" == "inference" ];
 then
@@ -84,5 +83,5 @@ then
       $DATASET_DIR/test.$SOURCE_LANG \
       $DATASET_DIR/test.$TARGET_LANG.pred \
       --folder $DATASET_DIR \
-      --batch_size 512 --beam_size 3 --replace_unk
+      --batch_size 512 --beam_size 5 --replace_unk
 fi

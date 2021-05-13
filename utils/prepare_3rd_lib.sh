@@ -1,7 +1,9 @@
 LIBRARY_NAME=$1
 
+SCRIPTS_SOURCE_ROOT=$(dirname $0)/..
+
 prepare_fast_align () {
-  FAST_ALIGN_HOME=".fast_align"
+  FAST_ALIGN_HOME="$SCRIPTS_SOURCE_ROOT/.fast_align"
   if [[ ! -d $FAST_ALIGN_HOME ]]; then
     git clone https://gitee.com/brightxiaohan/fast_align.git $FAST_ALIGN_HOME
     pushd $FAST_ALIGN_HOME
@@ -16,7 +18,7 @@ prepare_fast_align () {
 
 prepare_mgiza () {
   # clone and build
-  MGIZA_HOME=".mgiza"
+  MGIZA_HOME="$SCRIPTS_SOURCE_ROOT/.mgiza"
   if [[ ! -d $MGIZA_HOME ]]; then
     git clone https://gitee.com/brightxiaohan/mgiza.git .mgiza
     pushd $MGIZA_HOME
@@ -31,7 +33,7 @@ prepare_mgiza () {
 }
 
 prepare_fairseq () {
-  FAIRSEQ_HOME=".fairseq"
+  FAIRSEQ_HOME="$SCRIPTS_SOURCE_ROOT/.fairseq"
   if [ ! -d $FAIRSEQ_HOME ]; then
     git clone https://gitee.com/brightxiaohan/fairseq.git $FAIRSEQ_HOME -b v0.10.1
     pushd $FAIRSEQ_HOME
@@ -42,7 +44,7 @@ prepare_fairseq () {
 }
 
 prepare_moses () {
-  MOSES_HOME=".mosesdecoder"
+  MOSES_HOME="$SCRIPTS_SOURCE_ROOT/.mosesdecoder"
   if [ ! -d $MOSES_HOME ]; then
     git clone https://gitee.com/brightxiaohan/mosesdecoder.git $MOSES_HOME
   fi
@@ -50,7 +52,7 @@ prepare_moses () {
 }
 
 prepare_sentencepiece () {
-  SENTENCEPIECE_HOME=".sentencepiece"
+  SENTENCEPIECE_HOME="$SCRIPTS_SOURCE_ROOT/.sentencepiece"
   if [ ! -d $SENTENCEPIECE_HOME ]; then
     git clone https://gitee.com/brightxiaohan/sentencepiece.git $SENTENCEPIECE_HOME
     pushd $SENTENCEPIECE_HOME
