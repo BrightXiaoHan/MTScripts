@@ -1,5 +1,7 @@
 import os
+import re
 import json
+import fileinput
 from translate.storage.tmx import tmxfile
 from tqdm import tqdm
 from joblib import parallel_backend, delayed, Parallel
@@ -101,6 +103,72 @@ def tsv_file_parser(files, src_index=0, tgt_index=1):
         open_file.close()
 
 
+def linebyline_file_parser(files):
+    """
+    Extract parallel sentences from raw txt.
+    One line of original and one line of translation
+    """
+    if isinstance(files, str):
+        files = [files]
+
+    for filename in files:
+        open_file = open(filename)
+        src, tgt = "", ""
+
+        for i, line in enumerate(open_file):
+            line = line.strip()
+            if i % 2 == 0:
+                src = line
+            else:
+                tgt = line
+                yield [src, tgt]
+        open_file.close()
+
+
+def regx_file_parser(src_files, regx_src, tgt_files, regx_tgt):
+    """
+    Extract line from files which satisify given regx.
+    """
+    if isinstance(src_files, str):
+        src_files = [src_files]
+
+    if isinstance(tgt_files, str):
+        tgt_files = [tgt_files]
+
+    for src_file, tgt_file in zip(src_files, tgt_files):
+        src_lines = map(lambda x: re.search(regx_src, x),
+                        fileinput.input(src_file))
+        src_lines = [obj.group(1) for obj in src_lines if obj]
+
+        tgt_lines = map(lambda x: re.search(regx_tgt, x),
+                        fileinput.input(tgt_file))
+        tgt_lines = [obj.group(1) for obj in tgt_lines if obj]
+        assert len(src_lines) == len(
+            tgt_lines
+        ), "The number of lines in the two files is different. {},{}".format(
+            src_file, tgt_file)
+
+        yield from zip(src_lines, tgt_lines)
+
+
+def lambda_file_parser(src_files, func_src, tgt_files, func_tgt):
+    """
+    Extract line from files by given func
+    """
+    if isinstance(src_files, str):
+        src_files = [src_files]
+
+    if isinstance(tgt_files, str):
+        tgt_files = [tgt_files]
+
+    for src_file, tgt_file in zip(src_files, tgt_files):
+        src_lines = map(func_src, fileinput.input(src_file))
+        src_lines = list(filter(None, src_lines))
+        tgt_lines = map(func_tgt, fileinput.input(tgt_file))
+        tgt_lines = list(filter(None, tgt_lines))
+        yield from zip(src_lines, tgt_lines)
+
+
 def tmx_file_parser(files, src_lang, tgt_lang):
     """
     Extract parallel sentences from .tmx files
@@ -131,6 +199,12 @@ def seperate_file_parser(src_files, tgt_files):
         src_files: files contain source sentences.
         tgt_files: files contain target sentences.
     """
+    if isinstance(src_files, str):
+        src_files = [src_files]
+
+    if isinstance(tgt_files, str):
+        tgt_files = [tgt_files]
+
     for src_file, tgt_file in zip(src_files, tgt_files):
         with open(src_file) as f1, open(tgt_file) as f2:
             for src_line, tgt_line in zip(f1, f2):

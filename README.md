@@ -56,6 +56,7 @@ bash examples/toy.sh
 | SOURCE_LANG | zh  | 原文语言类型 |
 | TARGET_LANG | en  | 译文语言类型 |
 | FRAMEWORK_NAME | fairseq or opennmt | 机器翻译模型训练所使用的框架名称，fairseq或者opennmt。 |
+| FRAMEWORK_VERSION | v0.10.2 | 训练框架的commit_id, tag 或者branch ｜ 
 | CUDA_VISIABLE_DEVICE | 0,1 | 可见的cuda设备  |
 
 ### 3. 数据预处理

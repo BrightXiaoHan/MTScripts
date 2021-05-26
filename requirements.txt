@@ -3,3 +3,4 @@ sacrebleu
 translate-toolkit
 more-itertools
 tqdm
+hanziconv

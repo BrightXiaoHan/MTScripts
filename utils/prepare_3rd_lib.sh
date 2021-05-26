@@ -1,17 +1,18 @@
 LIBRARY_NAME=$1
 
 SCRIPTS_SOURCE_ROOT=$(dirname $0)/..
+PWD=$(pwd)
 
 prepare_fast_align () {
   FAST_ALIGN_HOME="$SCRIPTS_SOURCE_ROOT/.fast_align"
   if [[ ! -d $FAST_ALIGN_HOME ]]; then
     git clone https://gitee.com/brightxiaohan/fast_align.git $FAST_ALIGN_HOME
-    pushd $FAST_ALIGN_HOME
+    cd $FAST_ALIGN_HOME
     mkdir build
     cd build
     cmake ..
     make
-    popd
+    cd $PWD
   fi
   echo $FAST_ALIGN_HOME/build/fast_align
 }
@@ -21,11 +22,11 @@ prepare_mgiza () {
   MGIZA_HOME="$SCRIPTS_SOURCE_ROOT/.mgiza"
   if [[ ! -d $MGIZA_HOME ]]; then
     git clone https://gitee.com/brightxiaohan/mgiza.git .mgiza
-    pushd $MGIZA_HOME
+    cd $MGIZA_HOME
     cd .mgiza/mgizapp
     cmake .
     make
-    popd
+    cd $PWD
   fi
   mgiza_bin=$MGIZA_HOME/mgizapp/bin
   wget https://pastebin.com/raw/b1ksHtUy -O $mgiza_bin/config
@@ -35,11 +36,17 @@ prepare_mgiza () {
 prepare_fairseq () {
   FAIRSEQ_HOME="$SCRIPTS_SOURCE_ROOT/.fairseq"
   if [ ! -d $FAIRSEQ_HOME ]; then
-    git clone https://gitee.com/brightxiaohan/fairseq.git $FAIRSEQ_HOME -b v0.10.1
-    pushd $FAIRSEQ_HOME
+    git clone -q https://gitee.com/brightxiaohan/fairseq.git $FAIRSEQ_HOME
+    cd $FAIRSEQ_HOME
     python setup.py build_ext --inplace
-    popd
+    cd $PWD
   fi
+  if [ ! -n "$FRAMEWORK_VERSION" ]; then
+    FRAMEWORK_VERSION="v0.10.2"
+  fi
+  cd $FAIRSEQ_HOME
+  git checkout -q $FRAMEWORK_VERSION
+  cd $PWD
   echo $FAIRSEQ_HOME
 }
 
@@ -55,11 +62,11 @@ prepare_sentencepiece () {
   SENTENCEPIECE_HOME="$SCRIPTS_SOURCE_ROOT/.sentencepiece"
   if [ ! -d $SENTENCEPIECE_HOME ]; then
     git clone https://gitee.com/brightxiaohan/sentencepiece.git $SENTENCEPIECE_HOME
-    pushd $SENTENCEPIECE_HOME
+    cd $SENTENCEPIECE_HOME
     mkdir build
     cmake -H. -Bbuild -G "Unix Makefiles"
     cmake --build build
-    popd
+    cd $PWD
   fi
   echo $SENTENCEPIECE_HOME/build/src
 }
