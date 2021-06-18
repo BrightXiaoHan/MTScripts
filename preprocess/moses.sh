@@ -21,15 +21,11 @@ pipline_normal_tok () {
     for file in $all_files; do
       # normalize and tokenize
       echo "Normalize and tokenize file $file."
-      if [ "$lang" == "zh" ]; then
-        python $(dirname $0)/python/segment_chinese_chars.py $file $file.tmp
-        rm $file
-        mv $file.tmp $file
-      else
-        sacremoses -j 4 normalize < $file > $file.tmp
-        sacremoses -l en -j 4 tokenize  < $file.tmp > $file
-        rm $file.tmp
+      sacremoses -j 8 normalize < $file > $file.tmp
+      if [[ "$lang" != "zh" ]]; then
+        sacremoses -l $lang -j 8 tokenize  < $file.tmp > $file
       fi
+      rm $file.tmp
     done
   done
 }
@@ -39,7 +35,18 @@ pipline_truecase () {
   cat $all_corpus > $DATASET_DIR/.corpus 
   # train truecase model
   $MOSES_SCRIPTS/recaser/train-truecaser.perl --model $EXPORT_TRUECASE_MODEL --corpus $DATASET_DIR/.corpus
+  rm $DATASET_DIR/.corpus
 
+  for file in $all_corpus; do
+    # truecase
+    ${MOSES_SCRIPTS}/recaser/truecase.perl --model ${EXPORT_TRUECASE_MODEL} < $file > $file.tmp
+    rm $file
+    mv $file.tmp $file
+  done
+}
+
+pipline_truecase_without_train () {
+  all_corpus="$(get_all_files_by_lang $SOURCE_LANG) $(get_all_files_by_lang $TARGET_LANG)"
   for file in $all_corpus; do
     # truecase
     ${MOSES_SCRIPTS}/recaser/truecase.perl --model ${EXPORT_TRUECASE_MODEL} < $file > $file.tmp
@@ -58,7 +65,10 @@ then
   pipline_clean
 fi
 
-if [[ $* =~ "truecase" ]]
+if [[ $* =~ "truecase_without_train" ]]
+then
+  pipline_truecase_without_train
+elif [[ $* =~ "truecase" ]]
 then
   pipline_truecase
 fi

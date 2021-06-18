@@ -23,23 +23,20 @@ export FRAMEWORK_NAME="fairseq"
 export SOURCE_LANG="zh"
 export TARGET_LANG="en"
 
-bash $SCRIPTS_SOURCE_ROOT/preprocess/moses.sh normal_tok clean truecase
+bash $SCRIPTS_SOURCE_ROOT/preprocess/segment_chinese_chars.sh
+bash $SCRIPTS_SOURCE_ROOT/preprocess/moses.sh normal_tok truecase
 # 使用基于非译元素的方法进行term保护
 bash $SCRIPTS_SOURCE_ROOT/preprocess/term_protect.sh
-
-# 源语言是中文，如果原文和译文中包含中文，可以对中文进行分字处理（可选项）
-bash $SCRIPTS_SOURCE_ROOT/preprocess/segment_chinese_chars.sh
-
 # 使用bpe算法训练分词模型，并进行分词
-bash $SCRIPTS_SOURCE_ROOT/preprocess/train_spm_tokenizer.sh 10000 False bpe
+bash $SCRIPTS_SOURCE_ROOT/preprocess/train_spm_tokenizer.sh vocab_size=10000 train_seperate_tokenizer=false algorithm=bpe add_cn_common_chars=true
 bash $SCRIPTS_SOURCE_ROOT/preprocess/tokenize_all.sh
-
+ 
 # 将数据集分为训练集、开发集、测试集
 bash $SCRIPTS_SOURCE_ROOT/preprocess/split_train_dev_test.sh
-
+ 
 # 合并数据集
 bash $SCRIPTS_SOURCE_ROOT/preprocess/merge_datasets.sh
-
-# 训练+测试模型
+ 
+# # 训练+测试模型
 bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh train
 bash $SCRIPTS_SOURCE_ROOT/fairseq/train_transformer_base.sh test

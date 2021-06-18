@@ -35,9 +35,13 @@ merge () {
   done
 }
 
-echo "Merging train dataset for this project..."
+if [ ! -n "$TRAIN" ]; then
+    TRAIN=$(find $DATASET_DIR -maxdepth 1 -mindepth 1 -type d ! -name $DEV ! -name $TEST ! -name ".*" -exec sh -c 'echo $(basename {})' \;)
+fi
+
+echo "Merging train dataset for this project... $TRAIN"
 merge "$DATASET_DIR/train" $TRAIN
-echo "Merging dev dataset for this project..."
+echo "Merging dev dataset for this project... $DEV"
 merge "$DATASET_DIR/dev" $DEV
-echo "Merging test dataset for this project..."
+echo "Merging test dataset for this project... $TEST"
 merge "$DATASET_DIR/test" $TEST

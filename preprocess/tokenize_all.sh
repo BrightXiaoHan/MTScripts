@@ -11,12 +11,13 @@ do
   if [[ $lang == "all" ]];then
     lang=""
   fi
-  for file in $(find $DATASET_DIR -maxdepth 2 -mindepth 2 -type f -name "$lang*")
+  for file in $(find $DATASET_DIR -maxdepth 2 -mindepth 2 -type f -name "$lang*" -not -path "*/.*/*")
   do
     echo "Tokenizing file $file..."
-    $SENTENCEPIECE_BIN/spm_encode --model=$model < $file > $file.spm
-    rm $file
-    mv $file.spm $file
+    $SENTENCEPIECE_BIN/spm_encode --model=$model < $file > $file.spm && \
+        rm $file && \
+        mv $file.spm $file &
     echo "Tokenize file $file done."
   done
+  wait
 done

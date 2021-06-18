@@ -16,11 +16,10 @@ elif [ -f $DATASET_DIR/all.spm.vocab ]; then
   SOURCE_VOCAB=$DATASET_DIR/all.spm.vocab
   TARGET_VOCAB=$DATASET_DIR/all.spm.vocab
 else
-  echo "Can't find vocab from $DATASET_DIR for training."
-  exit 1
+  echo "Warning: Can't find vocab from $DATASET_DIR for training."
 fi
 
-if [ "MODE" == "prepare" ]
+if [ "$MODE" == "prepare" ]
 then
   # Preprocess/binarize the data
   echo "Start prapare data bins..."
@@ -41,11 +40,11 @@ then
       --lr 5e-4 --lr-scheduler inverse_sqrt --warmup-updates 4000 --warmup-init-lr 1e-07 \
       --dropout 0.3 --weight-decay 0.0001 \
       --criterion label_smoothed_cross_entropy --label-smoothing 0.1 \
-      --max-update 300000 --max-epoch 50 \
+      --max-update 600000 --max-epoch 50 \
       --patience 5 \
       --attention-dropout 0.1 \
       --max-tokens 8192 \
-      --update-freq 2 \
+      --update-freq 1 \
       --eval-bleu \
       --eval-bleu-args '{"beam": 1, "max_len_a": 1.2, "max_len_b": 10}' \
       --eval-bleu-detok moses \
@@ -58,6 +57,31 @@ then
       --save-dir $MODEL_PATH
 
   echo "Training process Done. Please check $MODEL_PATH/train.log for details."
+
+elif [ "$MODE" == "finetune" ]
+then
+  echo "Start finetuning..."
+  PYTHONIOENCODING=utf-8 python -u $RUN_PATH/train.py  \
+      $DATA_BIN_PATH \
+      --finetune-from-model $MODEL_PATH/checkpoint_best.pt \
+      --arch transformer_vaswani_wmt_en_de_big --share-all-embeddings \
+      --optimizer adam --adam-betas '(0.9, 0.98)' --clip-norm 0.0 \
+      --lr 5e-4 --lr-scheduler inverse_sqrt \
+      --dropout 0.3 --weight-decay 0.0001 \
+      --criterion label_smoothed_cross_entropy --label-smoothing 0.1 \
+      --max-epoch 30 \
+      --patience 3 \
+      --attention-dropout 0.1 \
+      --max-tokens 8192 \
+      --eval-bleu \
+      --eval-bleu-args '{"beam": 1, "max_len_a": 1.2, "max_len_b": 10}' \
+      --eval-bleu-detok moses \
+      --eval-bleu-remove-bpe \
+      --eval-bleu-print-samples \
+      --best-checkpoint-metric bleu --maximize-best-checkpoint-metric \
+      --ddp-backend=no_c10d \
+      --fp16 \
+      --save-dir $MODEL_PATH
 
 elif [ "$MODE" == "test" ]
 then
@@ -100,8 +124,13 @@ then
 
 elif [ "$MODE" == "inference" ];
 then
-  cp $SOURCE_VOCAB $MODEL_PATH/dict.$SOURCE_LANG.txt
-  cp $TARGET_VOCAB $MODEL_PATH/dict.$TARGET_LANG.txt
+  if [ ! -f "$MODEL_PATH/dict.$SOURCE_LANG.txt" ]; then
+    cp $SOURCE_VOCAB $MODEL_PATH/dict.$SOURCE_LANG.txt
+  fi
+  
+  if [ ! -f "$MODEL_PATH/dict.$SOURCE_LANG.txt" ]; then
+    cp $TARGET_VOCAB $MODEL_PATH/dict.$TARGET_LANG.txt
+  fi
 
   PYTHONIOENCODING=utf-8 python -u $(dirname $0)/inference.py \
       $DATASET_DIR/test.$SOURCE_LANG \
@@ -109,4 +138,3 @@ then
       --folder $MODEL_PATH \
       --batch_size 512 --beam_size 5 --replace_unk
 fi
-
